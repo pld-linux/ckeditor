@@ -17,6 +17,8 @@ Source3:	lighttpd.conf
 BuildRequires:	lynx
 BuildRequires:	rpmbuild(macros) > 1.268
 BuildRequires:	sed >= 4.0
+Requires:	webapps
+Requires:	webserver
 Requires:	webserver(access)
 Requires:	webserver(alias)
 BuildArch:	noarch
