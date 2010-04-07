@@ -1,11 +1,11 @@
 # TODO
-# - separate packages for plugins
+# - separate packages for plugins?
 # - uicolor for example bundles yui framework (30% of the whole plugins dir)
 Summary:	The text editor for Internet
 Summary(pl.UTF-8):	Edytor tekstowy dla Internetu
 Name:		ckeditor
 Version:	3.1
-Release:	1
+Release:	2
 License:	LGPL v2.1+ / GPL v2+ / MPL
 Group:		Applications/WWW
 Source0:	http://download.cksource.com/CKEditor/CKEditor/CKEditor%20%{version}/%{name}_%{version}.tar.gz
@@ -96,8 +96,12 @@ cp -a %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/lighttpd.conf
 
 %find_lang %{name}.lang
 
+# always include
+%{__sed} -i -e '/en\.js/d' %{name}.lang
+
 # already listed by plugin dir
 %{__sed} -i -e '/plugins/d' %{name}.lang
+
 %triggerin -- apache1 < 1.3.37-3, apache1-base
 %webapp_register apache %{_webapp}
 
@@ -128,6 +132,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/lighttpd.conf
 %dir %{_appdir}
 %{_appdir}/*.js
+%{_appdir}/lang/en.js
 %{_appdir}/*.css
 %dir %{_appdir}/themes
 %{_appdir}/themes/default
