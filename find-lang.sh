@@ -21,6 +21,9 @@ langfile=$1
 		en-ca)
 			lang=en_CA
 		;;
+		en-gb)
+			lang=en_GB
+		;;
 		en-uk)
 			lang=en_UK
 		;;

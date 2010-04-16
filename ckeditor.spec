@@ -4,12 +4,12 @@
 Summary:	The text editor for Internet
 Summary(pl.UTF-8):	Edytor tekstowy dla Internetu
 Name:		ckeditor
-Version:	3.1
-Release:	2
+Version:	3.2.1
+Release:	1
 License:	LGPL v2.1+ / GPL v2+ / MPL
 Group:		Applications/WWW
 Source0:	http://download.cksource.com/CKEditor/CKEditor/CKEditor%20%{version}/%{name}_%{version}.tar.gz
-# Source0-md5:	9c4a9e54f756e24c6aac24888c4599d0
+# Source0-md5:	793ad3d32b15f88b71db72573710a926
 URL:		http://www.ckeditor.com/
 Source1:	find-lang.sh
 Source2:	apache.conf
@@ -60,8 +60,8 @@ rmdir ckeditor
 rm ckeditor_php4.php
 mv ckeditor_php5.php ckeditor.php
 
-rm -rf _source
-rm -f *_source.js
+# collect source for reference
+mv *_source.js _source
 
 rm lang/_translationstatus.txt
 
@@ -143,6 +143,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_appdir}/skins/v2
 
 %dir %{_appdir}/plugins
+%{_appdir}/plugins/a11yhelp
 %{_appdir}/plugins/about
 %{_appdir}/plugins/clipboard
 %{_appdir}/plugins/colordialog
@@ -161,7 +162,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_appdir}/plugins/showblocks
 %{_appdir}/plugins/smiley
 %{_appdir}/plugins/specialchar
-%{_appdir}/plugins/stylescombo
+%{_appdir}/plugins/styles
 %{_appdir}/plugins/table
 %{_appdir}/plugins/tabletools
 %{_appdir}/plugins/templates
