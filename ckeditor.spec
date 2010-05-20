@@ -5,7 +5,7 @@ Summary:	The text editor for Internet
 Summary(pl.UTF-8):	Edytor tekstowy dla Internetu
 Name:		ckeditor
 Version:	3.2.1
-Release:	1
+Release:	2
 License:	LGPL v2.1+ / GPL v2+ / MPL
 Group:		Applications/WWW
 Source0:	http://download.cksource.com/CKEditor/CKEditor/CKEditor%20%{version}/%{name}_%{version}.tar.gz
@@ -81,7 +81,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_appdir}
 
 cp -a ckeditor.js config.js contents.css $RPM_BUILD_ROOT%{_appdir}
-cp -a plugins skins themes lang $RPM_BUILD_ROOT%{_appdir}
+cp -a adapters plugins skins themes lang $RPM_BUILD_ROOT%{_appdir}
 
 install -d $RPM_BUILD_ROOT%{php_data_dir}
 cp -a ckeditor.php $RPM_BUILD_ROOT%{php_data_dir}
@@ -134,6 +134,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_appdir}/*.js
 %{_appdir}/lang/en.js
 %{_appdir}/*.css
+
+%dir %{_appdir}/adapters
+%{_appdir}/adapters/jquery.js
+
 %dir %{_appdir}/themes
 %{_appdir}/themes/default
 
