@@ -53,7 +53,7 @@ find -name _translationstatus.txt -print -delete
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_appdir}
 
-cp -a ckeditor.js config.js contents.css $RPM_BUILD_ROOT%{_appdir}
+cp -a ckeditor.js config.js styles.js contents.css $RPM_BUILD_ROOT%{_appdir}
 cp -a adapters plugins skins lang $RPM_BUILD_ROOT%{_appdir}
 
 install -d $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
