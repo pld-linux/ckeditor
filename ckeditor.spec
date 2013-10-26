@@ -1,22 +1,21 @@
-# TODO
-# - separate packages for plugins?
-# - uicolor for example bundles yui framework (30% of the whole plugins dir)
+# NOTES:
+# - check for new releases here: http://ckeditor.com/download/releases
 Summary:	The text editor for Internet
 Summary(pl.UTF-8):	Edytor tekstowy dla Internetu
 Name:		ckeditor
-Version:	3.2.1
-Release:	4
+Version:	4.2
+Release:	1
 License:	LGPL v2.1+ / GPL v2+ / MPL
 Group:		Applications/WWW
-Source0:	http://download.cksource.com/CKEditor/CKEditor/CKEditor%20%{version}/%{name}_%{version}.tar.gz
-# Source0-md5:	793ad3d32b15f88b71db72573710a926
+Source0:	http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.2/%{name}_%{version}_full.zip
+# Source0-md5:	83a3ee13362a6793a9f341afe51d6bbe
 URL:		http://www.ckeditor.com/
 Source1:	find-lang.sh
 Source2:	apache.conf
 Source3:	lighttpd.conf
-BuildRequires:	lynx
-BuildRequires:	rpmbuild(macros) >= 1.268
+BuildRequires:	rpmbuild(macros) >= 1.553
 BuildRequires:	sed >= 4.0
+BuildRequires:	unzip
 Requires:	webapps
 Requires:	webserver
 Requires:	webserver(access)
@@ -41,58 +40,29 @@ Ten edytor tekstu HTML udostępnia stronom WWW wiele potężnych funkcji
 edytorów biurowych, takich jak MS Word. Jest lekki i nie wymaga żadnej
 inicjalizacji na komputerze klienckim.
 
-%package -n php-%{name}
-Summary:	PHP class to create editors instances
-Group:		Development/Languages/PHP
-
-%description -n php-%{name}
-CKEditor class that can be used to create editor instances in PHP
-pages on server side.
-
 %prep
 %setup -qc
-mkdir config
 mv ckeditor/* .
-mv ckeditor/.htaccess config/htaccess
-rmdir ckeditor
 
-# force php5 only
-rm ckeditor_php4.php
-mv ckeditor_php5.php ckeditor.php
-
-# collect source for reference
-mv *_source.js _source
-
-rm lang/_translationstatus.txt
-
-# used only in samples
-mv lang/_languages.js _samples
-%{__sed} -i -e 's,\.\./lang/_languages\.js,_languages.js,' _samples/ui_languages.html
+find -name _translationstatus.txt -print -delete
 
 # undos the files
-%{__sed} -i -e 's,\r$,,' ckeditor*
-find '(' -name '*.js' -o -name '*.css' -o -name '*.txt' -o -name '*.html' -o -name '*.php' ')' -print0 | xargs -0 sed -i -e 's,\r$,,'
-
-%build
-lynx -dump -nolist -width 1024 CHANGES.html | sed -e '/___/,$d' > CHANGES
+%undos -f js,css,txt,html,md
 
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_appdir}
 
-cp -a ckeditor.js config.js contents.css $RPM_BUILD_ROOT%{_appdir}
-cp -a adapters plugins skins themes lang $RPM_BUILD_ROOT%{_appdir}
-
-install -d $RPM_BUILD_ROOT%{php_data_dir}
-cp -a ckeditor.php $RPM_BUILD_ROOT%{php_data_dir}
+cp -a ckeditor.js config.js styles.js contents.css $RPM_BUILD_ROOT%{_appdir}
+cp -a adapters plugins skins lang $RPM_BUILD_ROOT%{_appdir}
 
 install -d $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
-cp -a _samples/* $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
+cp -a samples/* $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 
 install -d $RPM_BUILD_ROOT%{_sysconfdir}
-cp -a %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/apache.conf
-cp -a %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
-cp -a %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/lighttpd.conf
+cp -p %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/apache.conf
+cp -p %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
+cp -p %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/lighttpd.conf
 
 %find_lang %{name}.lang
 
@@ -125,7 +95,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc CHANGES
+%doc README.md CHANGES.md LICENSE.md
 %dir %attr(750,root,http) %{_sysconfdir}
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/apache.conf
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/httpd.conf
@@ -138,43 +108,38 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_appdir}/adapters
 %{_appdir}/adapters/jquery.js
 
-%dir %{_appdir}/themes
-%{_appdir}/themes/default
-
 %dir %{_appdir}/skins
-%{_appdir}/skins/kama
-%{_appdir}/skins/office2003
-%{_appdir}/skins/v2
+%{_appdir}/skins/moono
 
 %dir %{_appdir}/plugins
+%{_appdir}/plugins/icons.png
+%{_appdir}/plugins/icons_hidpi.png
+
 %{_appdir}/plugins/a11yhelp
 %{_appdir}/plugins/about
 %{_appdir}/plugins/clipboard
 %{_appdir}/plugins/colordialog
 %{_appdir}/plugins/dialog
 %{_appdir}/plugins/div
+%{_appdir}/plugins/fakeobjects
 %{_appdir}/plugins/find
 %{_appdir}/plugins/flash
 %{_appdir}/plugins/forms
-%{_appdir}/plugins/iframedialog
+%{_appdir}/plugins/iframe
 %{_appdir}/plugins/image
 %{_appdir}/plugins/link
+%{_appdir}/plugins/liststyle
+%{_appdir}/plugins/magicline
 %{_appdir}/plugins/pagebreak
 %{_appdir}/plugins/pastefromword
-%{_appdir}/plugins/pastetext
+%{_appdir}/plugins/preview
 %{_appdir}/plugins/scayt
 %{_appdir}/plugins/showblocks
 %{_appdir}/plugins/smiley
 %{_appdir}/plugins/specialchar
-%{_appdir}/plugins/styles
 %{_appdir}/plugins/table
 %{_appdir}/plugins/tabletools
 %{_appdir}/plugins/templates
-%{_appdir}/plugins/uicolor
 %{_appdir}/plugins/wsc
 
 %{_examplesdir}/%{name}-%{version}
-
-%files -n php-%{name}
-%defattr(644,root,root,755)
-%{php_data_dir}/ckeditor.php
