@@ -3,19 +3,18 @@
 Summary:	The text editor for Internet
 Summary(pl.UTF-8):	Edytor tekstowy dla Internetu
 Name:		ckeditor
-Version:	4.2
+Version:	4.3.1
 Release:	1
 License:	LGPL v2.1+ / GPL v2+ / MPL
 Group:		Applications/WWW
-Source0:	http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.2/%{name}_%{version}_full.zip
-# Source0-md5:	83a3ee13362a6793a9f341afe51d6bbe
+Source0:	http://download.cksource.com/CKEditor/CKEditor/CKEditor%20%{version}/%{name}_%{version}_full.tar.gz
+# Source0-md5:	42c63f02f77daa21e9b5447f170bfa0f
 URL:		http://www.ckeditor.com/
 Source1:	find-lang.sh
 Source2:	apache.conf
 Source3:	lighttpd.conf
 BuildRequires:	rpmbuild(macros) >= 1.553
 BuildRequires:	sed >= 4.0
-BuildRequires:	unzip
 Requires:	webapps
 Requires:	webserver
 Requires:	webserver(access)
