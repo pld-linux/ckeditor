@@ -9,10 +9,13 @@ License:	LGPL v2.1+ / GPL v2+ / MPL
 Group:		Applications/WWW
 Source0:	http://download.cksource.com/CKEditor/CKEditor/CKEditor%20%{version}/%{name}_%{version}_full.tar.gz
 # Source0-md5:	650ccbfbd51153261dc9be9bdc9ef5c0
+# http://ckeditor.com/addon/kama - The default CKEditor 3 skin ported to CKEditor 4.
+Source1:	http://download.ckeditor.com/kama/releases/kama_%{version}.zip
+# Source1-md5:	a57baab966aa228b85927cc07a7f95a1
 URL:		http://www.ckeditor.com/
-Source1:	find-lang.sh
 Source2:	apache.conf
 Source3:	lighttpd.conf
+Source4:	find-lang.sh
 BuildRequires:	rpmbuild(macros) >= 1.553
 BuildRequires:	sed >= 4.0
 Requires:	webapps
@@ -27,7 +30,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_sysconfdir	%{_webapps}/%{_webapp}
 %define		_appdir		%{_datadir}/%{name}
 
-%define		find_lang	sh %{SOURCE1}
+%define		find_lang	sh %{SOURCE4}
 
 %description
 This HTML text editor brings to the web many of the powerful
@@ -40,8 +43,9 @@ edytorów biurowych, takich jak MS Word. Jest lekki i nie wymaga żadnej
 inicjalizacji na komputerze klienckim.
 
 %prep
-%setup -qc
+%setup -qc -a1
 mv ckeditor/* .
+mv kama skins
 
 find -name _translationstatus.txt -print -delete
 
@@ -109,6 +113,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %dir %{_appdir}/skins
 %{_appdir}/skins/moono
+%{_appdir}/skins/kama
 
 %dir %{_appdir}/plugins
 %{_appdir}/plugins/icons.png
