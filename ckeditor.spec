@@ -4,7 +4,7 @@ Summary:	The text editor for Internet
 Summary(pl.UTF-8):	Edytor tekstowy dla Internetu
 Name:		ckeditor
 Version:	4.3.2
-Release:	1
+Release:	2
 License:	LGPL v2.1+ / GPL v2+ / MPL
 Group:		Applications/WWW
 Source0:	http://download.cksource.com/CKEditor/CKEditor/CKEditor%20%{version}/%{name}_%{version}_full.tar.gz
