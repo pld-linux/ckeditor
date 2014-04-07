@@ -56,7 +56,7 @@ find -name _translationstatus.txt -print -delete
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_appdir}
 
-cp -a ckeditor.js config.js styles.js contents.css $RPM_BUILD_ROOT%{_appdir}
+cp -a ckeditor.js styles.js contents.css $RPM_BUILD_ROOT%{_appdir}
 cp -a adapters plugins skins lang $RPM_BUILD_ROOT%{_appdir}
 ln -s kama $RPM_BUILD_ROOT%{_appdir}/skins/v2
 
@@ -67,6 +67,8 @@ install -d $RPM_BUILD_ROOT%{_sysconfdir}
 cp -p %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/apache.conf
 cp -p %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/httpd.conf
 cp -p %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/lighttpd.conf
+cp -p config.js $RPM_BUILD_ROOT%{_sysconfdir}
+ln -s %{_sysconfdir}/config.js $RPM_BUILD_ROOT%{_appdir}
 
 %find_lang %{name}.lang
 
@@ -104,6 +106,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/apache.conf
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/httpd.conf
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/lighttpd.conf
+%attr(644,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/config.js
 %dir %{_appdir}
 %{_appdir}/*.js
 %{_appdir}/lang/en.js
