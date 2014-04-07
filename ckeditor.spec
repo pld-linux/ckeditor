@@ -58,6 +58,7 @@ install -d $RPM_BUILD_ROOT%{_appdir}
 
 cp -a ckeditor.js config.js styles.js contents.css $RPM_BUILD_ROOT%{_appdir}
 cp -a adapters plugins skins lang $RPM_BUILD_ROOT%{_appdir}
+ln -s kama $RPM_BUILD_ROOT%{_appdir}/skins/v2
 
 install -d $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 cp -a samples/* $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
@@ -113,7 +114,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %dir %{_appdir}/skins
 %{_appdir}/skins/moono
+
+# kama skin, and compat link to it
 %{_appdir}/skins/kama
+%{_appdir}/skins/v2
 
 %dir %{_appdir}/plugins
 %{_appdir}/plugins/icons.png
